@@ -2,7 +2,7 @@
   "name": "resume-database",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://saseuofmn.github.io/SASETalentNetwork/",
+  "homepage": "https://tang-jiaxi.github.io/saseTalentNetwork/",
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.13.0",
