@@ -22,7 +22,7 @@ import {
   MenuOptionGroup,
   useBreakpointValue,
   ResponsiveValue,
-  useDisclosure,
+  Portal,
 } from '@chakra-ui/react';
 import { IoMdArrowDropdown } from "react-icons/io";
 import { BiFilterAlt } from "react-icons/bi";
@@ -30,127 +30,7 @@ import { FaLinkedin } from "react-icons/fa6";
 import { BsFillFileEarmarkPersonFill } from "react-icons/bs";
 import { IoMail } from "react-icons/io5";
 import { FaGoogleDrive } from "react-icons/fa";
-
-interface Resume {
-  name: string;
-  email: string;
-  year: string;
-  major: string[];
-  college: string[];
-  visa: string;
-  link: string;
-}
-
-const resumes: Resume[] = [
-  {
-    name: 'Lahari Hosur',
-    email: 'hosur004@umn.edu',
-    year: 'Sophomore',
-    major: ["Aerospace Engineering"],
-    college: ["College of Science and Engineering"],
-    visa: 'No',
-    link: 'https://drive.google.com/file/d/1vW1LNYpcUOm3Oiwa_OXhURNV4njSJEiX/preview',
-  },
-  {
-    name: 'Harini Kuchibhotla',
-    email: 'kuchi027@umn.edu',
-    year: 'Sophomore',
-    major: ["Computer Science","Data Science"],
-    college: ["College of Science and Engineering"],
-    visa: 'No',
-    link: 'https://drive.google.com/file/d/1fjiO7czZVwHDL8Lze4xt_6h1nApBxVNk/preview',
-  },
-  {
-    name: 'Joseph Hoang',
-    email: 'hoang340@umn.edu',
-    year: 'Senior',
-    major: ["Aerospace Engineering","Mathematics"],
-    college: ["College of Science and Engineering"],
-    visa: 'No',
-    link: 'https://drive.google.com/file/d/1jPH2J0vHQDEVALfVLzhdSAJxBGF9BoX7/preview',
-  },
-  {
-    name: 'Nilay Singh Mer',
-    email: 'mer00002@umn.edu',
-    year: 'Sophomore',
-    major: ["Management Information Systems","Finance"],
-    college: ["Carlson School of Management"],
-    visa: 'No',
-    link: 'https://drive.google.com/file/d/1bkGKi3goX8viwVh_EQ9_fJtVNtWn2aOn/preview',
-  },
-  {
-    name: 'Ansh Patel',
-    email: 'pate1011@umn.edu',
-    year: 'Junior',
-    major: ["Computer Science"],
-    college: ["College of Science and Engineering"],
-    visa: 'No',
-    link: 'https://drive.google.com/file/d/1Aevql40Alvtvp7yemy34eKAuCTe7HTKu/preview',
-  },
-  {
-    name: 'Hillary Vo',
-    email: 'vo000074@umn.edu',
-    year: 'Senior',
-    major: ["Mathematics"],
-    college: ["College of Science and Engineering"],
-    visa: 'No',
-    link: 'https://drive.google.com/file/d/1NTfMfzv8cYPLyF5bWJNtuflGEUaBsBIm/preview',
-  },
-  {
-    name: 'Henry Le',
-    email: 'le000379@umn.edu',
-    year: 'Junior',
-    major: ["Computer Science"],
-    college: ["College of Science and Engineering"],
-    visa: 'No',
-    link: 'https://drive.google.com/file/d/1uy5picyOXA-fijUGs5sJrWhzeVNlzL-J/preview',
-  },
-  {
-    name: 'Annalise Xiao',
-    email: 'xiao0332@umn.edu',
-    year: 'Junior',
-    major: ["Data Science"],
-    college: ["College of Science and Engineering"],
-    visa: 'No',
-    link: 'https://drive.google.com/file/d/1mFSg6BS5OlirMBfsMEM5mVAjEKFMK5mQ/preview',
-  },
-  {
-    name: 'Jiaxi Tang',
-    email: 'tang0773@umn.edu',
-    year: 'Junior',
-    major: ["Computer Science","Graphic Design"],
-    college: ["College of Science and Engineering","College of Design"],
-    visa: 'Yes',
-    link: 'https://drive.google.com/file/d/1eu9TO3jFwE40A4VXvJawN_BQJV1JhRtz/preview',
-  },
-  {
-    name: 'Eunice Tong',
-    email: 'tong0163@umn.edu',
-    year: 'Junior',
-    major: ["Chemistry"],
-    college: ["College of Science and Engineering"],
-    visa: 'No',
-    link: 'https://drive.google.com/file/d/1qeGKwzLj_wPPmpsy8edvxrcFFjGuTWDQ/preview',
-  },
-  {
-    name: 'Pearl Jain',
-    email: 'jain0377@umn.edu',
-    year: 'Sophomore',
-    major: ["Computer Science","Data Science"],
-    college: ["College of Science and Engineering"],
-    visa: 'Yes',
-    link: 'https://drive.google.com/file/d/1FgY5mTnVH9dFtfa72_VIAToiQpeo1GFD/preview',
-  },
-  {
-    name: 'Shreya Srivastava ',
-    email: 'sriva263@umn.edu',
-    year: 'Junior',
-    major: ["Computer Science"],
-    college: ["College of Science and Engineering"],
-    visa: 'No',
-    link: 'https://drive.google.com/file/d/1J-GDBT4ssnqjSiweDd1Gk-4kbFnaydAl/preview',
-  },
-];
+import { Resume, resumes } from './resume';
 
 function App() {
   const [selectedResume, setSelectedResume] = useState(resumes[0].link);
@@ -161,11 +41,8 @@ function App() {
   const [colleges, setColleges] = useState<string[]>([]);
   const [sortColumn, setSortColumn] = useState<keyof Resume | null>(null);
   const [sortOrder, setSortOrder] = useState('');
-  const [isScrollbarVisible, setIsScrollbarVisible] = useState(true);
   const direction = useBreakpointValue<ResponsiveValue<"row" | "column">>({ base: 'column', md: 'row' });
   const viewerWidth = useBreakpointValue({ base: '100%', md: '45%' });
-  const menuListRef = useRef<HTMLDivElement>(null);
-  const [menuHeight, setMenuHeight] = useState<number | string>('auto');
 
   interface Column<T> {
     key: keyof T;           
@@ -283,6 +160,7 @@ function App() {
         Sophomore: 2,
         Junior: 3,
         Senior: 4,
+        Graduate: 5,
       };
 
       if (sortColumn === 'year') {
@@ -317,6 +195,19 @@ function App() {
     }
   }, [sortedResumes, isPDFViewVisible, selectedRowIndex]);
 
+  const scrollbarStyle = {
+    '&::-webkit-scrollbar': {
+      height: '8px',
+      width: '9px',
+      borderRadius: '8px',
+      backgroundColor: `rgba(0, 0, 0, 0.05)`,
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: `rgba(0, 0, 0, 0.06)`,
+      borderRadius: '8px',
+    },
+  };  
+
   interface TableHeaderProps {
     title: string;
     options: string[];
@@ -349,7 +240,7 @@ function App() {
       >
         <Flex align="center" width="full">
           <Box>
-            <Menu closeOnSelect={false}>
+            <Menu closeOnSelect={false} placement='bottom-start'>
               <MenuButton 
                 as={Button} 
                 rightIcon={<IoMdArrowDropdown style={{color:"#4A5568"}}/>} 
@@ -378,39 +269,47 @@ function App() {
                   {isFilterApplied && <BiFilterAlt style={{ marginLeft: '4px', color: '#4A5568' }}/>}
                 </Flex>
               </MenuButton>
-              <MenuList ref={menuListRef}>
-                <MenuOptionGroup 
-                    type='radio' 
-                    value={sortOrder}
-                    onChange={(value) => handleSort(columnKey, value as string)}
-                    title="Sort"
+              <Portal>
+                <MenuList 
+                  overflow="visible" 
+                  maxHeight={400} 
+                  overflowY="auto"
+                  sx={scrollbarStyle}
+                  marginBottom={4}
                 >
-                  <MenuItemOption value="asc">
-                    Ascending
-                  </MenuItemOption>
-                  <MenuItemOption value="desc">
-                    Descending
-                  </MenuItemOption>
-                </MenuOptionGroup>
-               {filterable ? ( 
-                <MenuOptionGroup 
-                  type='checkbox' 
-                  value={filters[columnKey] || []}
-                  onChange={(value) => handleOptionChange(columnKey, value)}
-                  title="Filter"
-                  fontSize="sm"
-                >
-                  {options.sort().map((option) => (
-                    <MenuItemOption
-                      key={option}
-                      value={option}
-                      >
-                      {option}
+                  <MenuOptionGroup 
+                      type='radio' 
+                      value={sortOrder}
+                      onChange={(value) => handleSort(columnKey, value as string)}
+                      title="Sort"
+                  >
+                    <MenuItemOption value="asc">
+                      Ascending
                     </MenuItemOption>
-                  ))}
-                </MenuOptionGroup>
-              ) : null}
-              </MenuList>
+                    <MenuItemOption value="desc">
+                      Descending
+                    </MenuItemOption>
+                  </MenuOptionGroup>
+                {filterable ? ( 
+                  <MenuOptionGroup 
+                    type='checkbox' 
+                    value={filters[columnKey] || []}
+                    onChange={(value) => handleOptionChange(columnKey, value)}
+                    title="Filter"
+                    fontSize="sm"
+                  >
+                    {options.sort().map((option) => (
+                      <MenuItemOption
+                        key={option}
+                        value={option}
+                        >
+                        {option}
+                      </MenuItemOption>
+                    ))}
+                  </MenuOptionGroup>
+                ) : null}
+                </MenuList>
+              </Portal>
             </Menu>
           </Box>
         </Flex>
@@ -446,25 +345,11 @@ function App() {
   return (
     <Flex alignItems="flex-start" gap={2} height="100vh">
       <Box 
-        className={`scroll-container ${isScrollbarVisible ? '' : 'hide-scrollbar'}`}
         flex="1"
         width={isPDFViewVisible ? "1" : "1 1 100%"} 
         overflowY="auto"
         height="100%"
-        sx={{
-          '&::-webkit-scrollbar': {
-            height: '8px',
-            width: '9px',
-            borderRadius: '8px',
-            backgroundColor: `rgba(0, 0, 0, 0.05)`,
-            // transition: 'display 0.5s ease',
-            // display: isScrollbarVisible ? 'visible' : 'none',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            backgroundColor: `rgba(0, 0, 0, 0.06)`,
-            borderRadius: '8px',
-          },
-        }}
+        sx={scrollbarStyle}
       >
         <Box display="flex" alignItems="center" marginX={4} marginTop={3} flexDirection={direction} >
           <Image
@@ -553,18 +438,7 @@ function App() {
           height="auto"
           marginTop={{ base: 8, md: 0 }} 
           overflowX="auto" 
-          sx={{
-            '&::-webkit-scrollbar': {
-              height: '8px',
-              width: '8px',
-              borderRadius: '8px',
-              backgroundColor: `rgba(0, 0, 0, 0.05)`,
-            },
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: 'rgba(0, 0, 0, 0.05)',
-              borderRadius: '8px',
-            }
-          }}
+          sx={scrollbarStyle}
         >
 
           <Table height="auto">
