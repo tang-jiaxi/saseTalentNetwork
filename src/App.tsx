@@ -9,14 +9,9 @@ import {
   Th,
   Tr,
   ChakraProvider,
-  Text,
-  Link,
   useBreakpointValue,
   ResponsiveValue,
 } from '@chakra-ui/react'
-import { FaLinkedin } from "react-icons/fa6"
-import { BsFillFileEarmarkPersonFill } from "react-icons/bs"
-import { IoMail } from "react-icons/io5"
 import { Resume, resumes } from './resume'
 import TableHeader from './TableHeader'
 import TableData from './TableData'
@@ -206,9 +201,8 @@ function App() {
         overflowY="auto"
         height="100%"
         sx={scrollbarStyle}
-        className="custom-scrollbar"
       >
-        <Box mx={4}>
+        <Box mx={4} overflow='hidden'>
           <Nav direction={direction}></Nav>
           <IntroCopy></IntroCopy>
 
