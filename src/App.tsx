@@ -9,21 +9,21 @@ import {
   Th,
   Tr,
   ChakraProvider,
-  Image,
   Text,
   Link,
-  ListItem,
-  UnorderedList,
   useBreakpointValue,
   ResponsiveValue,
 } from '@chakra-ui/react'
 import { FaLinkedin } from "react-icons/fa6"
 import { BsFillFileEarmarkPersonFill } from "react-icons/bs"
 import { IoMail } from "react-icons/io5"
-import { FaGoogleDrive } from "react-icons/fa"
 import { Resume, resumes } from './resume'
 import TableHeader from './TableHeader'
 import TableData from './TableData'
+import Nav from './Nav'
+import IntroCopy from './IntroCopy'
+import Footer from './Footer'
+import theme from './theme'
 
 function App() {
   const [selectedResume, setSelectedResume] = useState(resumes[0].link);
@@ -199,96 +199,34 @@ function App() {
 
   return (
     <Flex alignItems="flex-start" gap={2} height="100vh">
+      {/* Website Content */}
       <Box 
         flex="1"
         width={isPDFViewVisible ? "1" : "1 1 100%"} 
         overflowY="auto"
         height="100%"
         sx={scrollbarStyle}
+        className="custom-scrollbar"
       >
-        <Box display="flex" alignItems="center" marginX={4} marginTop={3} flexDirection={direction} >
-          <Image
-            src={`${process.env.PUBLIC_URL}/saselogoname.png`}
-            alt="SASE Logo"
-            width={60}
-            marginRight={4}
-            marginBottom={{ base: 3, md: 0 }}
-          />
-          <Box display="flex" alignItems="center" marginLeft={{base: 0, md: "auto"}}>
-            <Link href="https://saseumn.org/" isExternal marginX={2}>
-              <Text color="#1F2638" fontWeight="semibold">
-                Website
-              </Text>
-            </Link>
-            <Link href="https://www.instagram.com/saseumn/" isExternal marginX={2}>
-              <Text color="#1F2638" fontWeight="semibold">
-                Instagram
-              </Text>
-            </Link>
-            <Link href="https://www.facebook.com/SASE/" isExternal marginX={2}>
-              <Text color="#1F2638" fontWeight="semibold">
-                Facebook
-              </Text>
-            </Link>
-            <Link href="mailto:sasemail@umn.edu" isExternal marginX={2}>
-              <Text color="#1F2638" fontWeight="semibold">
-                Email
-              </Text>
-            </Link>
-          </Box>
-        </Box>
-
-        <Text fontWeight="semibold" marginX={4} marginTop={6}>Welcome to SASE @ UMN's Talent Network resume database for 2024–2025!</Text>
-        <Text marginX={4} marginBottom={3}>Thank you for partnering with SASE @ UMN! We are incredibly grateful for your vital support in nurturing the growth of our talented students.  As a valued sponsor, you have exclusive access to our resume database, offering a glimpse into the skills and potential of our future leaders.</Text>
-        <Text marginX={4} >To start viewing resumes:</Text>
-        <Flex
-          position="relative"
-          justifyContent="space-between"  
-          alignItems="flex-start"  
-          marginX={4}
-          flexWrap="wrap"
-        >
-          <UnorderedList marginLeft={4} marginRight={4} marginBottom={{ base: 0, md: 3 }}>
-            <ListItem>Click on 'View Resume' in the rightmost column that opens a custom PDF viewer on desktop or mobile. Use 'Back' and 'Next' to move through resumes. Best viewed fullscreen via laptop.</ListItem>
-            <ListItem> Or visit our&nbsp;
-            <Button
-              as="a"
-              href="https://drive.google.com/drive/folders/138QVOlQX-CrO_lbj8emAZ0QJ_lsRozVM?usp=sharing"
-              target="_blank"
-              variant="outline" 
-              leftIcon={<FaGoogleDrive color="teal.500"/>} // Icon to the left
-              size="sm" 
-              color="teal.500"
-              borderRadius="md" 
-              borderWidth="1.4px"
-              borderColor="gray.300"
-              p={1} 
-              height={6}
-              display="inline-flex" 
-              iconSpacing="5px"
-            >
-              Google Drive
-            </Button>
-              &nbsp;for quick access to all resumes.
-            </ListItem>
-          </UnorderedList>   
+        <Box mx={4}>
+          <Nav direction={direction}></Nav>
+          <IntroCopy></IntroCopy>
 
           <Button 
+            display='block'
             onClick={handleResetClick} 
             background="#425075" 
             color="white" 
-            position="absolute"
-            right={1}
-            bottom={{ base: -7, md: 1 }}
-            flexShrink={0}
-            flexGrow={0}
             size="xs"
-            alignSelf="flex-end"  // Align button to the bottom right
-            zIndex={100}
+            ml="auto"
+            mb={3}
           >
-          Reset All
+            Reset All
           </Button>
-        </Flex>
+
+        </Box>
+
+        {/* Table */}
         <Box 
           position="relative" 
           height="auto"
@@ -311,6 +249,7 @@ function App() {
                     sortOrder={sortOrder}
                     handleSort={handleSort}
                     handleOptionChange = {handleOptionChange}
+                    sortedColumn={sortColumn}
                   />
                 ))}
                 <Th borderRight="1px" borderRightColor="gray.200" px={4} py={2}> 
@@ -323,17 +262,16 @@ function App() {
                 <Tr 
                   key={index} 
                   bg={selectedRowIndex === index ? "#EEF5FC" : "white"}
+                  width="100%"
                 >
-                  <TableData minWidth={150} maxWidth={400}>{resume.name}</TableData>
-                  <TableData minWidth={100} maxWidth={800}>{resume.email}</TableData>
-                  <TableData minWidth={100} maxWidth={300}>{resume.year}</TableData>
-                  <TableData minWidth={300} maxWidth={800}>{resume.major.sort().join(', ')}</TableData>
-                  <TableData minWidth={400} maxWidth={1200}>{resume.college.sort().join(', ')}</TableData>
-                  {/* <TableData>{resume.visa}</TableData> */}
+                  <TableData>{resume.name}</TableData>
+                  <TableData>{resume.email}</TableData>
+                  <TableData>{resume.year}</TableData>
+                  <TableData>{resume.major.sort().join(', ')}</TableData>
+                  <TableData>{resume.college.sort().join(', ')}</TableData>
                   <TableData>
                     <Button
                       as="a"
-                      // href={convertPreviewToView(resume.link)}
                       onClick={(e) => {
                         e.stopPropagation()
                         handleClick(resume.link, index);
@@ -351,20 +289,12 @@ function App() {
             </Tbody>
           </Table>
         </Box>
-        <Box marginTop={5} marginBottom={6} textAlign="center" display="flex" alignItems="center" justifyContent="center">
-            <Text margin={4} fontSize={13}> Designed and coded by Jiaxi Tang — SASE @ UMN Corporate Director 2024–2025 
-              <br/> with the use of React, Javascript, Typescript, and ChakraUI.</Text>
-              <Link href="https://drive.google.com/file/d/1dD2n2aYtkoNIyYMyzl0TgoMIKYORmfq9/view?usp=drive_link" isExternal>
-                <BsFillFileEarmarkPersonFill size={25} color="#6e7d8c" />
-              </Link>
-              <Link href="mailto:tang0773@umn.edu" isExternal marginLeft={1}>
-                <IoMail size={28} color="#6e7d8c" />
-              </Link>
-              <Link href="https://www.linkedin.com/in/jiaxi--tang/" isExternal marginLeft={1}>
-                <FaLinkedin size={25} color="#6e7d8c" />
-              </Link>
-          </Box>
+
+        <Footer></Footer>  
+
       </Box>
+
+      {/* PDF Viewer */}
       {isPDFViewVisible ?
         <Flex direction="column" height="100vh" width={viewerWidth}>
           <Box flex="1" marginRight={4} marginTop={4} width="100%">
@@ -395,7 +325,7 @@ function App() {
 
 export default function WrappedApp() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <App />
     </ChakraProvider>
   );

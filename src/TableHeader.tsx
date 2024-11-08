@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import { Th, Flex, Box, Menu, MenuButton, Button, MenuList, Portal, MenuOptionGroup, MenuItemOption } from '@chakra-ui/react'
 import { IoMdArrowDropdown } from 'react-icons/io'
 import { BiFilterAlt } from 'react-icons/bi'
+import { TbSortAscending2, TbSortDescending2 } from "react-icons/tb";
 import { Resume } from './resume'
 import './index.css'
 
@@ -15,6 +16,7 @@ interface TableHeaderProps {
   filterable: boolean;
   filters: { [key in keyof Resume]?: string[] };
   sortOrder: string;
+  sortedColumn: keyof Resume | null;
   handleSort: (column: keyof Resume, value: string) => void;
   handleOptionChange: (columnKey: keyof Resume, value: string | string[]) => void;
 }
@@ -28,12 +30,14 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   filterable,
   filters,
   sortOrder,
+  sortedColumn,
   handleSort,
   handleOptionChange,
   ...props
 }) => {
 
   const isFilterApplied = filters[columnKey] ? filters[columnKey]!.length > 0 : false;
+  const isSorted = sortedColumn === columnKey;
 
   return (
     <Th 
@@ -72,7 +76,9 @@ const TableHeader: React.FC<TableHeaderProps> = ({
             >
               <Flex as="span" textAlign="left" flex="1">
                 <Th borderBottom={0} padding={0}>{title}</Th>
-                {isFilterApplied && <BiFilterAlt style={{ marginLeft: '4px', color: '#4A5568' }}/>}
+                {isSorted && sortOrder === 'asc' && <TbSortAscending2 style={{ marginLeft: '4px', color: '#4A5568' }} size={17}/>}
+                {isSorted && sortOrder === 'desc' && <TbSortDescending2 style={{ marginLeft: '4px', color: '#4A5568' }} size={17}/>}
+                {isFilterApplied && <BiFilterAlt style={{ marginLeft: '4px', color: '#4A5568' }} size={16}/>}
               </Flex>
             </MenuButton>
             <Portal>
