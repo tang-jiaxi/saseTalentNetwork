@@ -7,7 +7,8 @@ As the Corporate Director of SASE, I was inspired to create this website to bett
 
 ## View the website
 Due to privacy concerns, this website is populated with dummy student data instead of real student data.
-Visit [here](https://tang-jiaxi.github.io/saseTalentNetwork/) to view an implementation.
+
+To view an implementation, click [here](https://tang-jiaxi.github.io/saseTalentNetwork/).
 
 ## Built with
 * React.js
