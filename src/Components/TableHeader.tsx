@@ -3,8 +3,8 @@ import { Th, Flex, Box, Menu, MenuButton, Button, MenuList, Portal, MenuOptionGr
 import { IoMdArrowDropdown } from 'react-icons/io'
 import { BiFilterAlt } from 'react-icons/bi'
 import { TbSortAscending2, TbSortDescending2 } from "react-icons/tb";
-import { Resume } from './resume'
-import './index.css'
+import { Resume } from '../resume'
+import '../index.css'
 
 interface TableHeaderProps {
   title: string;

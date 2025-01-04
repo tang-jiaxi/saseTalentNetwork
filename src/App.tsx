@@ -13,11 +13,11 @@ import {
   ResponsiveValue,
 } from '@chakra-ui/react'
 import { Resume, resumes } from './resume'
-import TableHeader from './TableHeader'
-import TableData from './TableData'
-import Nav from './Nav'
-import IntroCopy from './IntroCopy'
-import Footer from './Footer'
+import TableHeader from './Components/TableHeader'
+import TableData from './Components/TableData'
+import Nav from './Components/Nav'
+import IntroCopy from './Components/IntroCopy'
+import Footer from './Components/Footer'
 import theme from './theme'
 
 function App() {
